@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>환영합니다.</title>
+</head>
+<body>
+	<h3>환영합니다.(index.html)</h3>
+	<h5>192.168.0.19</h5>
+	<a href="resume/resume.html">소개합니다.</a>
+	<hr>
+	<!--get 방식 
+	<form action="methodServ" method="get">
+		제 목: <input type="text" name="title">
+		내 용: <textarea rows="3" cols="20" name="content"></textarea>
+		작성자: <input type="text" name="writer">
+		<input type="submit" value="저장">
+	-->
+	
+	<!--post 방식 -->
+	<form action="methodServ" method="post">
+		번 호: <input type="text" name="bno" value="1">
+		제 목: <input type="text" name="title">
+		내 용: <textarea rows="3" cols="20" name="content"></textarea>
+		작성자: <input type="text" name="writer">
+		<input type="submit" value="저장">
+	</form>
+	
+	<form action="jsp/removeBoard.jsp" method="post">
+		번 호: <input type="text" name="bno" value="1">
+		제 목: <input type="text" name="title">
+		내 용: <textarea rows="3" cols="20" name="content"></textarea>
+		작성자: <input type="text" name="writer">
+		<input type="submit" value="삭제">
+	</form>
+</body>
+</html>

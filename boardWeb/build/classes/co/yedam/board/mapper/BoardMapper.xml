@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="co.yedam.board.mapper.BoardMapper">
+  
+  <select id="boardList" resultType="board" parameterType="search">
+	SELECT 	rn,
+       		board_no,
+       		title,
+       		content,
+       		writer,
+       		view_cnt,
+       		create_date
+	FROM   (SELECT /*+ INDEX_DESC(b board_pk) */ rownum rn, b.*
+       		FROM   tbl_board b
+       		<where>
+	       		<choose>
+	       			<when test="searchCondition == 'T'.toString()">
+	       				title LIKE '%'||#{keyword}||'%'
+	       			</when>
+	       			<when test="searchCondition == 'W'.toString()">
+	       				writer LIKE '%'||#{keyword}||'%'
+	       			</when>
+	       			<when test="searchCondition == 'TW'.toString()">
+	       				(title LIKE '%'||#{keyword}||'%' OR writer LIKE '%'||#{keyword}||'%')
+	       			</when>
+	       			<!-- <otherwise></otherwise> <=else -->
+	       		</choose>
+       		<![CDATA[
+       			AND  rownum <= (#{page} * 5)
+       		]]>
+       		</where>
+       		) a
+	WHERE  a.rn > (#{page} - 1) * 5
+  </select>
+  
+  
+  <select id="getTotalCnt" resultType="int" parameterType="search">
+  	SELECT count(*)
+  	FROM   tbl_board
+  	<where>
+	      <choose>
+	      	<when test="searchCondition == 'T'.toString()">
+	      		title LIKE '%'||#{keyword}||'%'
+	      	</when>
+	      	<when test="searchCondition == 'W'.toString()">
+	      		writer LIKE '%'||#{keyword}||'%'
+	      	</when>
+	      	<when test="searchCondition == 'TW'.toString()">
+	      		(title LIKE '%'||#{keyword}||'%' OR writer LIKE '%'||#{keyword}||'%')
+	      	</when>
+	      	<!-- <otherwise></otherwise> <=else -->
+	      </choose>
+    </where>
+  </select>
+  
+  <select id="selectBoard" parameterType="int" resultType="board">
+  	SELECT	board_no,
+  			title,
+  			content,
+  			writer,
+  			view_cnt,
+  			create_date
+	FROM	tbl_board
+	WHERE	board_no = #{bno}
+  </select>
+  
+</mapper>
