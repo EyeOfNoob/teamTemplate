@@ -11,14 +11,13 @@ import co.yedam.board.service.BoardService;
 import co.yedam.board.service.BoardServiceImpl;
 import co.yedam.common.Control;
 
-public class BoardControl implements Control {
+public class RemoveForm implements Control {
 
 	@Override
 	public void exec(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		// TODO Auto-generated method stub => board.do
-		
-//		변수
+		// TODO Auto-generated method stub
 		String bno = req.getParameter("bno");
+//		System.out.println(bno);
 		
 //		작동시킬 업무로직
 		BoardService svc = new BoardServiceImpl();
@@ -26,11 +25,14 @@ public class BoardControl implements Control {
 		Board board = svc.getBoard(Integer.parseInt(bno));
 		
 		req.setAttribute("board", board);
-//						   이름     실제값
 		
-		String path = "WEB-INF/view/board.jsp";
+//		WEB-INF/view/deleteForm.jsp
+//		호출할 html
+		String path = "WEB-INF/view/deleteForm.jsp";
 //								html
 		req.getRequestDispatcher(path).forward(req, resp);
+		
+		
 	}
 
 }

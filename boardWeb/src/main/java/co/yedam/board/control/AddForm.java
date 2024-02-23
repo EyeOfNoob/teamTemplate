@@ -11,25 +11,25 @@ import co.yedam.board.service.BoardService;
 import co.yedam.board.service.BoardServiceImpl;
 import co.yedam.common.Control;
 
-public class BoardControl implements Control {
+public class AddForm implements Control {
 
 	@Override
 	public void exec(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		// TODO Auto-generated method stub => board.do
+		// TODO Auto-generated method stub
+//		req.setCharacterEncoding("utf-8");
+//		
+//		String title = req.getParameter("title");
+//		String writer = req.getParameter("writer");
+//		String content = req.getParameter("content");
+//		
+//		Board board = new Board();
+//		board.setTitle(title);
+//		board.setWriter(writer);
+//		board.setContent(content);
+//		
+//		req.setAttribute("board", board);
 		
-//		변수
-		String bno = req.getParameter("bno");
-		
-//		작동시킬 업무로직
-		BoardService svc = new BoardServiceImpl();
-//		전달 시킬 변수
-		Board board = svc.getBoard(Integer.parseInt(bno));
-		
-		req.setAttribute("board", board);
-//						   이름     실제값
-		
-		String path = "WEB-INF/view/board.jsp";
-//								html
+		String path = "WEB-INF/view/addForm.jsp";
 		req.getRequestDispatcher(path).forward(req, resp);
 	}
 

@@ -11,11 +11,11 @@ import co.yedam.board.service.BoardService;
 import co.yedam.board.service.BoardServiceImpl;
 import co.yedam.common.Control;
 
-public class BoardControl implements Control {
+public class UpdateForm implements Control {
 
 	@Override
 	public void exec(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		// TODO Auto-generated method stub => board.do
+		// TODO Auto-generated method stub
 		
 //		변수
 		String bno = req.getParameter("bno");
@@ -28,9 +28,11 @@ public class BoardControl implements Control {
 		req.setAttribute("board", board);
 //						   이름     실제값
 		
-		String path = "WEB-INF/view/board.jsp";
+//		호출할 html
+		String path = "WEB-INF/view/updateForm.jsp";
 //								html
 		req.getRequestDispatcher(path).forward(req, resp);
+
 	}
 
 }

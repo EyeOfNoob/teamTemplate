@@ -11,4 +11,12 @@ public interface BoardService {
 	
 //	단건조회.
 	Board getBoard(int bno);
+	
+//	수정
+	boolean modifyBoard(Board board);
+	
+//	삭제
+	boolean deleteBoard(int bno);
+//	글등록
+	boolean addBoard(Board board);
 }

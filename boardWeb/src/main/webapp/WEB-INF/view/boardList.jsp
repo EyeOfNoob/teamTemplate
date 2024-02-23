@@ -3,6 +3,9 @@
 <%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+
 <!-- action tag-header참조 -->
 <jsp:include page="../includes/header.jsp"></jsp:include>
 
@@ -36,12 +39,17 @@
 	.pagination a:hover:not(.active) {background-color: #ddd;}
 </style>
 
-<%
+<!-- 
 	List<Board> list = (List<Board>) request.getAttribute("list");
 	PageDTO pageDTO = (PageDTO) request.getAttribute("page");
 	String searchCondition = (String) request.getAttribute("searchCondition");
 	String keyword = (String) request.getAttribute("keyword");
-%>
+ -->
+<!-- JSTL -->
+${list }
+${page }
+${searchCondition }
+${keyword }
 
 	<div class="center">
 		<form action="" method="get">
@@ -76,35 +84,46 @@
 			</tr>
 		</thead>
 		<tbody>
-			<%for(Board board : list){ %>
-			<tr>
-				<td><%=board.getBoardNo() %></td>
-				<td><a href="board.do?bno=<%=board.getBoardNo() %>"><%=board.getTitle() %></td>
-				<td><%=board.getWriter() %></td>
-				<td><%=board.getViewCnt() %></td>
-				<td><%=board.getCreateDate() %></td>
-			</tr>
-			<%}	%>
+			<!-- for(Board board : list){ ~  }-->
+			<c:forEach var="board" items="${list }">
+				<tr>
+					<td><c:out value="${board.boardNo }" /></td>
+					<td><a href="board.do?bno=${board.boardNo }">${board.title }</a></td>
+					<td>${board.writer }</td>
+					<td>${board.viewCnt }</td>
+					<td><fmt:formatDate value="${board.createDate }" pattern="yyy-MM-dd HH:mm:ss" /></td>
+				</tr>
+			</c:forEach>
 		</tbody>
 	</table>
 	
+	
+	
 	<div class="center">
 	<div class="pagination">
-	<%if (pageDTO.isPrev()){ %>
-		<a href="boardList.do?page=<%=pageDTO.getStarPage()-1 %>&searchCondition=<%=searchCondition%>&keyword=<%=keyword%>"> &laquo; </a>
-	<%} %>
 	
-	<%for(int p = pageDTO.getStarPage(); p<=pageDTO.getEndPage(); p++){ %>
-		<%if(p == pageDTO.getPage()){ %>
-		<a href="boardList.do?page=<%=p %>&searchCondition=<%=searchCondition%>&keyword=<%=keyword%>" class="active"><%=p %></a>
-		<%}else{ %>
-		<a href="boardList.do?page=<%=p %>&searchCondition=<%=searchCondition%>&keyword=<%=keyword%>"><%=p %></a>
-		<%} %>
-	<%} %>
+	<!-- if -->
+	<c:if test="${page.prev }">
+		<a href="boardList.do?page=${page.starPage - 1 }&searchCondition=${searchCondition }&keyword=${keyword }"> &laquo; </a>
+	</c:if>
 	
-	<%if (pageDTO.isNext()){ %>
-		<a href="boardList.do?page=<%=pageDTO.getEndPage()+1 %>&searchCondition=<%=searchCondition%>&keyword=<%=keyword%>"> &raquo; </a>
-	<%} %>
+	<!-- for -->
+	<c:forEach begin="${page.starPage }" end="${page.endPage }" var="p">
+		<c:choose>
+			<c:when test="${p eq page.page }">
+				<a href="boardList.do?page=${p }&searchCondition=${searchCondition }&keyword=${keyword }" class="active">${p }</a>
+			</c:when>
+			<c:otherwise>
+				<a href="boardList.do?page=${p }&searchCondition=${searchCondition }&keyword=${keyword }">${p }</a>
+			</c:otherwise>
+		</c:choose>
+	</c:forEach>
+	
+	<!-- if -->
+	<c:if test="${page.next }">
+		<a href="boardList.do?page=${page.endPage + 1 }&searchCondition=${searchCondition }&keyword=${keyword }"> &raquo; </a>
+	</c:if>
+	
 	</div>
 	</div>
 	
