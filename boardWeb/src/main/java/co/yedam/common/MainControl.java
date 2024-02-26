@@ -14,7 +14,7 @@ public class MainControl implements Control {
 //		java파일 : src/main/java
 //		web파일  : src/main/webapp
 		
-		String path = "WEB-INF/view/main.jsp";
+		String path = "board/main.tiles";
 		RequestDispatcher dispatch = req.getRequestDispatcher(path);//
 		dispatch.forward(req, resp);//
 	}

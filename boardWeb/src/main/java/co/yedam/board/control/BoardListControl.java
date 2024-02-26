@@ -42,7 +42,7 @@ public class BoardListControl implements Control {
 		req.setAttribute("searchCondition", searchCond);
 		req.setAttribute("keyword", keyword);
 		
-		String path = "WEB-INF/view/boardList.jsp";
+		String path = "board/boardList.tiles";
 		req.getRequestDispatcher(path).forward(req, resp);
 		
 	}

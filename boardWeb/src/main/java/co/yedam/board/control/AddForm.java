@@ -29,7 +29,7 @@ public class AddForm implements Control {
 //		
 //		req.setAttribute("board", board);
 		
-		String path = "WEB-INF/view/addForm.jsp";
+		String path = "board/addForm.tiles";
 		req.getRequestDispatcher(path).forward(req, resp);
 	}
 

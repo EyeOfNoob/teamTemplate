@@ -18,8 +18,12 @@ import co.yedam.board.control.ModifyBoard;
 import co.yedam.board.control.RemoveBoard;
 import co.yedam.board.control.RemoveForm;
 import co.yedam.board.control.UpdateForm;
+import co.yedam.member.control.AddMemberControl;
+import co.yedam.member.control.AddMemberForm;
 import co.yedam.member.control.LoginControl;
 import co.yedam.member.control.LoginForm;
+import co.yedam.member.control.LogoutControl;
+import co.yedam.member.control.MemberListControl;
 
 // init -> service ->destroy
 public class FrontController extends HttpServlet {
@@ -55,6 +59,14 @@ public class FrontController extends HttpServlet {
 //		회원관련
 		controls.put("/loginForm.do", new LoginForm());
 		controls.put("/login.do", new LoginControl());
+		controls.put("/logout.do", new LogoutControl());
+		
+//		회원등록.
+		controls.put("/addMember.do", new AddMemberControl());
+		controls.put("/addMemberForm.do", new AddMemberForm());
+		
+//		회원목록조회.
+		controls.put("/memberList.do", new MemberListControl());
 	}
 
 //	service - 서버 요청때마다 실행

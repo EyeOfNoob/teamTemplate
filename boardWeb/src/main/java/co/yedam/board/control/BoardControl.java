@@ -28,7 +28,7 @@ public class BoardControl implements Control {
 		req.setAttribute("board", board);
 //						   이름     실제값
 		
-		String path = "WEB-INF/view/board.jsp";
+		String path = "board/board.tiles";
 //								html
 		req.getRequestDispatcher(path).forward(req, resp);
 	}

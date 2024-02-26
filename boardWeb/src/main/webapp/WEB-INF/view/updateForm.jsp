@@ -1,7 +1,8 @@
 <%@page import="co.yedam.board.Board"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<jsp:include page="../includes/header.jsp"></jsp:include>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+
 
 	<!-- html안에서 호출할 데이터 -->
 	<%
@@ -33,11 +34,9 @@
 			</tr>
 			<tr>
 				<td colspan="4" align="center">
-					<!--        form으로 전송(새페이지로 이동)                    -->
-					<button type="submit" class="btn btn-primary">저장</button>
-					<button type="reset" class="btn btn-secondary">취소</button>
+					<button type="submit" class="btn btn-primary" ${board.writer eq logid ? '' : 'disabled'}>저장</button>
+					<button type="reset" class="btn btn-secondary" ${board.writer eq logid ? '' : 'disabled'}>취소</button>
 				</td>
 			</tr>
 		</table>
 	</form>
-<jsp:include page="../includes/footer.jsp"></jsp:include>

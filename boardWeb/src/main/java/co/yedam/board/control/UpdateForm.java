@@ -29,7 +29,7 @@ public class UpdateForm implements Control {
 //						   이름     실제값
 		
 //		호출할 html
-		String path = "WEB-INF/view/updateForm.jsp";
+		String path = "board/updateForm.tiles";
 //								html
 		req.getRequestDispatcher(path).forward(req, resp);
 

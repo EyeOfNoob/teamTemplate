@@ -1,13 +1,13 @@
+<!-- 없어도 작동가능(taglib을 쓰면.) -->
 <%@page import="co.yedam.common.PageDTO"%>
 <%@page import="co.yedam.board.Board"%>
 <%@page import="java.util.List"%>
+
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
-<!-- action tag-header참조 -->
-<jsp:include page="../includes/header.jsp"></jsp:include>
 
 <style>
 	.center {
@@ -46,10 +46,10 @@
 	String keyword = (String) request.getAttribute("keyword");
  -->
 <!-- JSTL -->
-${list }
+<!--${list }
 ${page }
 ${searchCondition }
-${keyword }
+${keyword }-->
 
 	<div class="center">
 		<form action="" method="get">
@@ -127,6 +127,4 @@ ${keyword }
 	</div>
 	</div>
 	
-<!-- action tag-footer참조 -->
-<jsp:include page="../includes/footer.jsp"></jsp:include>
 	

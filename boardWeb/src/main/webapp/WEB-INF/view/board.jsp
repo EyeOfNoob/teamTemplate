@@ -3,8 +3,6 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
-<!-- action tag-header참조 -->
-<jsp:include page="../includes/header.jsp"></jsp:include>
 
 	<h3>상세조회</h3>
 	<!--      submit작동시 보낼 페이지 							  -->
@@ -31,14 +29,21 @@
 			</tr>
 			<tr>
 				<td colspan="4" align="center">
-					<!--        form으로 전송(새페이지로 이동)                    -->
-					<button type="submit" class="btn btn-primary">수정</button>
-					<button type="button" class="btn btn-secondary" onclick="removeFunc()">삭제</button>
+					<c:choose>
+						<c:when test="${board.writer eq logid }">
+							<!--        form으로 전송(새페이지로 이동)                    -->
+							<button type="submit" class="btn btn-primary">수정</button>
+							<button type="button" class="btn btn-secondary" onclick="removeFunc()">삭제</button>
+						</c:when>
+						<c:otherwise>
+							<button type="submit" class="btn btn-primary" disabled>수정</button>
+							<button type="button" class="btn btn-secondary" disabled onclick="removeFunc()">삭제</button>
+						</c:otherwise>
+					</c:choose>
 				</td>
 			</tr>
 		</table>
 	</form>
-<jsp:include page="../includes/footer.jsp"></jsp:include>
 
 <script>
 	function removeFunc(){

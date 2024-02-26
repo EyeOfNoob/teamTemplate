@@ -14,4 +14,59 @@
 		AND    pw = #{pw}
 	</select>
 
+	<insert id="insertMember" parameterType="member">
+		INSERT INTO tbl_member(id,
+		                       pw,
+		                       name,
+		                       image)
+  		VALUES (#{id}, 
+  	       		#{pw}, 
+  	        	#{name},
+  	        	#{image})
+	</insert>
+	
+	<select id="memberList" resultType="member" parameterType="search">
+		SELECT id,
+		       name,
+		       auth,
+		       image
+		FROM   (SELECT /*+ INDEX_DESC(b board_pk) */ rownum rn, b.*
+       			FROM   tbl_member b
+       			<where>
+		       		<choose>
+	    	   			<when test="searchCondition == 'I'.toString()">
+	       					id LIKE '%'||#{keyword}||'%'
+	       				</when>
+	       				<when test="searchCondition == 'N'.toString()">
+	       					name LIKE '%'||#{keyword}||'%'
+	    	   			</when>
+	     	  			<when test="searchCondition == 'A'.toString()">
+	     	  				auth LIKE '%'||#{keyword}||'%'
+	     	  			</when>
+	    	   		</choose>
+       			<![CDATA[
+       				AND  rownum <= (#{page} * 10)
+       			]]>
+       			</where>
+       			ORDER BY b.auth, b.id ) a
+		WHERE  a.rn > (#{page} - 1) * 10
+	</select>
+	
+	<select id="getTotalMember" resultType="int" parameterType="search">
+  	SELECT count(*)
+  	FROM   tbl_member
+  	<where>
+	      <choose>
+	      	<when test="searchCondition == 'I'.toString()">
+	     		id LIKE '%'||#{keyword}||'%'
+	     	</when>
+	     	<when test="searchCondition == 'N'.toString()">
+	     		name LIKE '%'||#{keyword}||'%'
+	     	</when>
+	     	<when test="searchCondition == 'A'.toString()">
+	     		auth LIKE '%'||#{keyword}||'%'
+	     	</when>
+	      </choose>
+    </where>
+  </select>
 </mapper>
