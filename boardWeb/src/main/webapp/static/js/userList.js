@@ -40,30 +40,34 @@ document.addEventListener('DOMContentLoaded', function(e) {
 	json.forEach(function(item, idx, ary) {
 		//console.log(item, idx, ary); // item => {}
 		//if (item.gender == 'Female') {
-			let tr = document.createElement('tr');
-			for (let prop in item) {
-				let td = document.createElement('td');
-				td.innerText = item[prop];
-				tr.appendChild(td);
-			}
-			document.querySelector('#tableList tbody').appendChild(tr);
+		let tr = document.createElement('tr');
+		for (let prop in item) {
+			let td = document.createElement('td');
+			td.innerText = item[prop];
+			tr.appendChild(td);
+		}
+		document.querySelector('#tableList tbody').appendChild(tr);
 		//}
 	});
-	
-	document.querySelector('#genderList').addEventListener('change',genderOutput);
-	function genderOutput(){
+
+
+	document.querySelector('#genderList').addEventListener('change', genderOutput);
+
+	function genderOutput() {
 		//내용 초기화.
 		document.querySelector('tbody').innerHTML = '';
 		let choice = document.querySelector('#genderList').value;
-		console.log(choice);
-		if (item.gender == choice) {
-			let tr = document.createElement('tr');
-			for (let prop in item) {
-				let td = document.createElement('td');
-				td.innerText = item[prop];
-				tr.appendChild(td);
+		json.forEach(function(item, idx, ary) {
+			if (item.gender == choice) {
+				let tr = document.createElement('tr');
+				for (let prop in item) {
+					let td = document.createElement('td');
+					td.innerText = item[prop];
+					tr.appendChild(td);
+				}
+				document.querySelector('#tableList tbody').appendChild(tr);
 			}
-			document.querySelector('#tableList tbody').appendChild(tr);
-		}
+		})
+
 	}
 });
