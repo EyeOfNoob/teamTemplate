@@ -22,7 +22,7 @@
 	</tr>
 	<tr>
 		<td colspan="2">
-			<button type="submit" >저장</button>
+			<button type="submit" class="btn btn-primary">저장</button>
 		</td>
 	</tr>
 </table>

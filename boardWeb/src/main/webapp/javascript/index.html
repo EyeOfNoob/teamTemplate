@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<p>Hello
+
+	<input type="text" id="name">
+	<button class="btn">클릭</button>
+
+	<ul id="list">
+		<li>김민수
+			<button>삭제</button>
+		</li>
+		<li>황인만
+			<button>삭제</button>
+		</li>
+	</ul>
+
+	<!-- 학생정보 입력 -->
+	<h3>학생등록</h3>
+	<table border="1" id="stdTable">
+		<tr>
+			<th>학생번호</th><td><input type="number" id="sno"></td>
+		</tr>
+		<tr>
+			<th>이  름</th><td><input type="text" id="sname"></td>
+		</tr>
+		<tr>
+			<th>점  수</th><td><input type="number" id="score"></td>
+		</tr>
+		<tr>
+			<td colspan="2" align="center">
+				<button id="addBtn">등록</button>
+				<button id="editBtn">수정</button>
+			</td>
+		</tr>
+	</table>
+	
+	<h3>학생목록</h3>
+	<table border="1">
+		<thead>
+			<tr>
+				<th>학생번호</th>
+				<th>이 름</th>
+				<th>점 수</th>
+				<th>삭 제</th>
+			</tr>
+			
+		</thead>
+		<tbody id="studlist">
+			<!-- <tr> -->
+			<!-- 	<td>100</td> -->
+			<!-- 	<td>홍길동</td> -->
+			<!-- 	<td>70</td> -->
+			<!-- 	<td><button>삭제</button></td> -->
+			<!-- </tr> -->
+		</tbody>
+	</table>
+
+	<script>
+		let str = "hello";
+		str = 10;
+		str = {
+				name: "홍길동",
+				age: 20,
+				showInfo: function(){
+					return '이름은 ' + this.name + ', 나이는 ' + this.age;
+				}
+		}
+		
+		// 속성.
+		console.log('=====');
+		for(let prop in str){
+			let i = prop;
+			console.log(prop, str.prop, str.i, str[prop], str.name, str['name']);
+		}
+		console.log('=====');
+		
+		// 배열.
+		str = ["홍길동", "김민수", 20]
+		for(let val of str){
+			console.log(val);
+		}
+		
+		str = [
+			{sno: 101, sname: "김학생", score: 80},
+			{sno: 102, sname: "최학생", score: 85},
+			{sno: 103, sname: "박학생", score: 88}
+		]
+		for(let student of str){
+			//let prop = 'score';
+			//console.log(student.sno, student['sname'], student[prop]);
+			for(let prop in student){
+				console.log(`${prop}: ${student[prop]}`);	
+			}
+		}
+				
+		console.log(str[0].sno);
+		console.log(str[0]['sname']);
+		console.log(str[0], typeof str[2]);
+		
+	</script>
+	<script src="script.js"></script>
+</body>
+</html>

@@ -28,7 +28,7 @@ public class RemoveForm implements Control {
 		
 //		WEB-INF/view/deleteForm.jsp
 //		호출할 html
-		String path = "WEB-INF/view/deleteForm.jsp";
+		String path = "board/deleteForm.tiles";
 //								html
 		req.getRequestDispatcher(path).forward(req, resp);
 		
