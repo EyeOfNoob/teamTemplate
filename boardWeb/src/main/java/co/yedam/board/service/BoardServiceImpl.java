@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.session.SqlSession;
 
 import co.yedam.board.Board;
+import co.yedam.board.Book;
 import co.yedam.board.mapper.BoardMapper;
 import co.yedam.common.DataSource;
 import co.yedam.common.SearchVO;
@@ -66,5 +67,26 @@ public class BoardServiceImpl implements BoardService {
 		} else {
 			return false;
 		}
+	}
+
+//	도서관련
+	@Override
+	public List<Book> bookList() {
+		return mapper.bookList();
+	}
+
+	@Override
+	public boolean addBook(Book book) {
+		return mapper.insertBook(book) == 1;
+	}
+
+	@Override
+	public boolean removeBook(String bcode) {
+		if (mapper.deleteBook(bcode) == 1) {
+			return true;
+		}else {
+			return false;
+		}
+			
 	}
 }

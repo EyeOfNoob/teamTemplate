@@ -98,4 +98,31 @@
   	        #{writer})
   </insert>
   
+  <!-- 도서관련 -->
+  <select id="bookList" resultType="co.yedam.board.Book">
+  	SELECT book_code,
+  	       book_name,
+  	       author,
+  	       press,
+  	       price
+  	FROM   tbl_book
+  </select>
+  
+  <insert id="insertBook" parameterType="co.yedam.board.Book">
+  	INSERT INTO tbl_book(book_code,
+                     	 book_name,
+                     	 author,
+                     	 press,
+                     	 price)
+	VALUES (#{bookCode},
+            #{bookName},
+            #{author},
+            #{press},
+            #{price})
+  </insert>
+  
+  <delete id="deleteBook" parameterType="String">
+  	DELETE FROM tbl_book
+  	WHERE  book_code = #{bcode}
+  </delete>
 </mapper>

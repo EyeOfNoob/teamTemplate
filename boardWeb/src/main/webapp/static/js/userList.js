@@ -40,34 +40,66 @@ document.addEventListener('DOMContentLoaded', function(e) {
 	json.forEach(function(item, idx, ary) {
 		//console.log(item, idx, ary); // item => {}
 		//if (item.gender == 'Female') {
-		let tr = document.createElement('tr');
-		for (let prop in item) {
-			let td = document.createElement('td');
-			td.innerText = item[prop];
-			tr.appendChild(td);
+		if (idx < 10) {
+			let tr = makeRow(item);
+			document.querySelector('#tableList tbody').appendChild(tr);
 		}
-		document.querySelector('#tableList tbody').appendChild(tr);
+		//let tr = document.createElement('tr');
+		//for (let prop in item) {
+		//	let td = document.createElement('td');
+		//	td.innerText = item[prop];
+		//	tr.appendChild(td);
+		//}
+		//document.querySelector('#tableList tbody').appendChild(tr);
 		//}
 	});
 
+	//change이벤트 처리
+	document.querySelector('#genderList').addEventListener('change', function(e) {
+		//showList(this.value);
+		//filterList(this.value);
+		reduceList(this.value);
+		console.log('A');
+	});
 
-	document.querySelector('#genderList').addEventListener('change', genderOutput);
+}); //end of DOMContentLoaded.
 
-	function genderOutput() {
-		//내용 초기화.
-		document.querySelector('tbody').innerHTML = '';
-		let choice = document.querySelector('#genderList').value;
-		json.forEach(function(item, idx, ary) {
-			if (item.gender == choice) {
-				let tr = document.createElement('tr');
-				for (let prop in item) {
-					let td = document.createElement('td');
-					td.innerText = item[prop];
-					tr.appendChild(td);
-				}
-				document.querySelector('#tableList tbody').appendChild(tr);
+function showList(gender = 'Male') {
+	document.querySelector('tbody').innerHTML = '';
+
+	json.forEach(function(item) {
+		if (item.gender == gender || gender == 'All') {
+			document.querySelector('tbody').appendChild(makeRow(item))
+		}
+	})
+}
+
+//document.querySelector('#genderList').addEventListener('change', genderOutput);
+
+function genderOutput() {
+	//내용 초기화.
+	document.querySelector('tbody').innerHTML = '';
+	let choice = document.querySelector('#genderList').value;
+	json.forEach(function(item) {
+		if (item.gender == choice) {
+			let tr = document.createElement('tr');
+			for (let prop in item) {
+				let td = document.createElement('td');
+				td.innerText = item[prop];
+				tr.appendChild(td);
 			}
-		})
+			document.querySelector('#tableList tbody').appendChild(tr);
+		}
+	})
+}
 
+// 한건생성.
+function makeRow(obj = {}) {
+	let tr = document.createElement('tr');
+	for (let prop in obj) {
+		let td = document.createElement('td');
+		td.innerText = obj[prop];
+		tr.appendChild(td);
 	}
-});
+	return tr;
+}
