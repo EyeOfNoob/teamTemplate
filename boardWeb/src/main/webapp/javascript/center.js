@@ -9,24 +9,24 @@ let showFields = ['id', 'centerName', 'phoneNumber', 'sido']
 let tbodyTag = document.querySelector('#list');
 
 fetch(url)
-.then(resolve => resolve.json())
-.then(result => {
-	//console.log(result);
-	result.data.forEach(center => {
-		let tr = document.createElement('tr');
-		showFields.forEach(field => {
-			let td = document.createElement('td');
-			if(field == 'centerName'){
-				td.innerText = center[field].substring('코로나19'.length);
-			}else{
-				td.innerText = center[field];
-			}
-			tr.append(td);
+	.then(resolve => resolve.json())
+	.then(result => {
+		console.log(result);
+		result.data.forEach(center => {
+			let tr = document.createElement('tr');
+			showFields.forEach(field => {
+				let td = document.createElement('td');
+				if (field == 'centerName') {
+					td.innerText = center[field].substring('코로나19'.length);
+				} else {
+					td.innerText = center[field];
+				}
+				tr.append(td);
+			})
+			tbodyTag.append(tr);
 		})
-		tbodyTag.append(tr);
 	})
-})
-.catch(err => console.log(err));
+	.catch(err => console.log(err));
 
 
 //조회 이벤트 처리
@@ -34,31 +34,35 @@ fetch(url)
 let btn = document.querySelector('#searchBtn')
 btn.addEventListener('click', searchFnc);
 
-function searchFnc(e){
+function searchFnc(e) {
 	let searchK = document.querySelector('#keyword').value;
 	tbodyTag.innerHTML = '';
 	fetch(url)
-	.then(resolve => resolve.json())
-	.then(result => {
-		console.log(result);
-		result.data.forEach(center => {
-			if(field == 'sido'){
-				if(center[field]==searchK){
-				let tr = document.createElement('tr');
-				showFields.forEach(field => {
-					let td = document.createElement('td');
-					if(field == 'centerName'){
-						td.innerText = center[field].substring('코로나19'.length);
-					}else{
-						td.innerText = center[field];
-					}
-					tr.append(td);
-				})
-				tbodyTag.append(tr);
+		.then(resolve => resolve.json())
+		.then(result => {
+			console.log(result);
+			console.log(result);
+			result.data.forEach(center => {
+
+				if (center.sido == searchK || searchK == '') {
+
+					let tr = document.createElement('tr');
+					showFields.forEach(field => {
+						let td = document.createElement('td');
+						if (field == 'centerName') {
+							td.innerText = center[field].substring('코로나19'.length);
+						} else {
+							td.innerText = center[field];
+						}
+						tr.append(td);
+					})
+					tbodyTag.append(tr);
+
 				}
-			}
+
+			})
 		})
-	})
-	.catch(err => console.log(err));
+		.catch(err => console.log(err));
 }
+
 
