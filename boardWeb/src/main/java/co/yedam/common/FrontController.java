@@ -97,7 +97,8 @@ public class FrontController extends HttpServlet {
 //	service - 서버 요청때마다 실행
 	@Override
 	protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		req.setCharacterEncoding("utf-8");
+		req.setCharacterEncoding("utf-8"); //요청이 post일 경우.
+		
 //		System.out.println("service 실행.");
 		String uri = req.getRequestURI(); // 현재 페이지의 url
 //		System.out.println("uri: "+uri);

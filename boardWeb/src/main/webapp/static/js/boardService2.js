@@ -1,5 +1,5 @@
 /**
- * boardService.js
+ * boardService2.js
  */
 // .pagenation>a click이벤트.
 let page = 1;
@@ -24,47 +24,53 @@ function pagingFunc() {
 
 // 등록이벤트.
 document.querySelector('.addReply').addEventListener('click', addReplyFnc);
-async function addReplyFnc(e) { 
+function addReplyFnc(e) { //세션내 id는 js가 아니고 jsp쪽에서 담을 변수(상수)를 선언해서 불러와야함.
 	let reply = document.querySelector('input[name="reply"]').value;
-	//세션내 id는 js에서 호출불가.jsp쪽에서 담을 변수(상수)를 선언해서 불러와야함.
 	if (!replyer) { //비로그인 입력 처리
-		alert('댓글은 로그인한 사용자만 작성할수 있습니다.');
+		alert('댓글은 로그인한 사용자만 작성할수 있습니다.')
 		return;
 	}
 	if (!reply) { //댓글 공백처리
-		alert('댓글 입력하세요.');
+		alert('댓글 입력하세요.')
 		return;
 	}
 
-	//ajax 호출.
-	try{
-		//fetch
-		let resolve = await fetch('addReply.do', {
-			//'addReply.do'가 불러와지는 페이지가 http://localhost:8080/boardWeb/A
-			//일 경우 boardWeb 바로 아래기때문에 ../이 없어도 된다.
-			//http://localhost:8080/boardWeb/A/B 에서 불러와질경우엔 필요.
-			method: 'post',
-			headers: {
-				'Content-Type': 'application/x-www-form-urlencoded'
-			},
-			body: 'bno=' + bno + '&reply=' + reply + '&replyer=' + replyer
-		});
-		//.then
-		let result = await resolve.json();
+	const addHtp = new XMLHttpRequest();
+	addHtp.open('post', 'addReply.do');
+	addHtp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+	addHtp.send('bno=' + bno + '&reply=' + reply + '&replyer=' + replyer);
+	addHtp.onload = function(e) {
+		let result = JSON.parse(addHtp.responseText);
 		if (result.retCode == 'OK') {
-			alert('등록 성공');
+			alert('정상 등록');
+			//document.querySelector('.reply ul').appendChild(makeRow2(result.retVal)); //페이지를 새로불러오므로 필요없음.
 			document.querySelector('#reply').value = '';
-			resolve = await fetch('getTotal.do?bno=' + bno);
-			result = await resolve.json();
-			page = Math.ceil(result.totalCount / 5);
-			replyList(page);
-			pageList();
+
+			//건수 계산하기위한 ajax 호출.(마지막 페이지로 보내기)
+			const ckHtp = new XMLHttpRequest();
+			ckHtp.open('get', 'getTotal.do?bno=' + bno);
+			ckHtp.send();
+			//=-=========================체크필요===================================
+			ckHtp.onload = function(e) {
+				let result = JSON.parse(ckHtp.responseText);
+				//let totalCnt = result.totalCount;
+				//let realEnd = Math.ceil(totalCnt / 5);
+				//let endPage = Math.ceil(page / 5) * 5;
+				//endPage = endPage > realEnd ? realEnd : endPage;
+				//console.log(totalCnt + ' ' + endPage + ' ' + realEnd);
+				//page = realEnd;
+				page = Math.ceil(result.totalCount / 5);
+				
+				//첫페이지로 보내기
+				//page = 1;
+				replyList(page);
+				pageList();
+			}
 		} else {
-			alert('처리 실패');
+			alert('등록 중 오류발생');
 		}
-	}catch(err){
-		 console.log(err);
-	} //end of ajax 호출.
+	}
+	//console.log(bno, reply, replyer);
 }
 
 // 댓글 목록.
@@ -103,10 +109,12 @@ function makeRow2(obj = {}) {
 	clon.querySelector('span:nth-of-type(3)').innerText = obj.replyer;
 	//삭제버튼.
 	let btn = document.createElement('button');
+	//===================================================
 	if (replyer != obj.replyer) {
 		//btn.disabled = true;
 		btn.setAttribute('disabled', true);
 	}
+	//===================================================
 	btn.addEventListener('click', deleteRow);
 	btn.innerText = '삭제';
 	clon.querySelector('span:nth-of-type(4)').innerText = '';
@@ -115,7 +123,7 @@ function makeRow2(obj = {}) {
 }
 
 //삭제함수.
-async function deleteRow() {
+function deleteRow() {
 	let rno = this.parentElement.parentElement.dataset.rno;
 	let li = this.parentElement.parentElement;
 	//작성자와 로그인 비교.
@@ -127,70 +135,63 @@ async function deleteRow() {
 		return;
 	}
 
-	//ajax 호출
-	const optObj = {
-		method: 'post',
-		headers: {
-			'Content-Type': 'application/x-www-form-urlencoded'
-		},
-		body: 'rno=' + rno
-	}
-	try {
-		let resolve = await fetch('removeReply.do', optObj);
-		let result = await resolve.json();
+	const delHtp = new XMLHttpRequest();
+	delHtp.open('post', 'removeReply.do');
+	delHtp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+	delHtp.send('rno=' + rno);
+	delHtp.onload = function(e) {
+		console.log(delHtp);
+		const result = JSON.parse(delHtp.responseText);
 		if (result.retCode == 'OK') {
 			alert(result.retMsg);
-			//li.remove();
+			li.remove();
 			replyList(page);
 			pageList();
 		} else {
 			alert(result.retMsg);
 		}
-	}catch(err){
-		 console.log(err);
 	}
-} //end of deleteRow
+}
 
 //목록함수.
 function replyList(rpage = 1) {
-	fetch('replyList.do?bno=' + bno + '&page=' + rpage, {
-		method: 'get'
-	})
-		.then(resolve => resolve.json())
-		.then(data => {
-			document.querySelectorAll('li[data-rno]').forEach(item => item.remove());
-			data.forEach(item => {
-				document.querySelector('.reply ul').appendChild(makeRow2(item));
-			});
-			if (!data.length && page > 1) {
-				//if (page > 1) {
-				//	page--;
-				//} else {
-				//	page;
-				//}
-				page--;
-				replyList(page);
-				pageList();
-			}
-		})
-		.catch(err => console.log(err));
+	const xhtp = new XMLHttpRequest();
+	xhtp.open('get', 'replyList.do?bno=' + bno + '&page=' + rpage);
+	xhtp.send();
+	xhtp.onload = function(e) {
+		//console.log(xhtp.responseText);
+		const data = JSON.parse(xhtp.responseText);
+		//기존목록 삭제.
+		document.querySelectorAll('li[data-rno]').forEach(item => item.remove());
+		//목록.
+		data.forEach(item => {
+			document.querySelector('.reply ul').appendChild(makeRow2(item));
+		});
+		//목록이 없을때
+		if (!data.length && page > 1 ) {
+			//if (page > 1) {
+			//	page--;
+			//} else {
+			//	page;
+			//}
+			page--;
+			replyList(page);
+			pageList();
+		}
+	}
 }
 replyList(page);
 
 // 페이징 목록.
 function pageList() {
-	fetch('getTotal.do?bno=' + bno)
-		.then(resolve => resolve.json())
-		.then(createPageElement)
-		//.catch(err => console.log(err));
-		.catch(function(err){
-			console.log(err);
-		}); 
-		
-	function createPageElement(result) {
+	const plistHtp = new XMLHttpRequest();
+	plistHtp.open('get', 'getTotal.do?bno=' + bno);
+	plistHtp.send();
+	plistHtp.onload = function(e) {
 		// 기존 페이지 삭제.
 		document.querySelector('div.pagination').innerHTML = '';
-	
+
+		let result = JSON.parse(plistHtp.responseText);
 		let totalCnt = result.totalCount;
 		let startPage, endPage; // 1~5, 6~10,...
 		let next, prev;

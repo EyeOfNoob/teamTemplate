@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<div id='show'></div>
+
+	<script>
+		var listFunc; //undefined. 
+		//아래에서 다시 선언된부분이 있을경우 끌어와서 값을 채움.
+		
+		console.log('javascript/ajax.html');
+		
+		//비동기방식 처리.
+		setTimeout(function() {
+			//console.log('hello-1');
+		}, 1000);
+
+		setTimeout(function() {
+			//console.log('hello-2');
+		}, 3000);
+
+		setTimeout(function() {
+			//console.log('hello-3');
+		}, 2000);
+
+		//비동기->동기방식 처리.
+		setTimeout(function() {
+			//console.log('hello-1');
+
+			setTimeout(function() {
+				//console.log('hello-2');
+				
+				setTimeout(function() {
+					//console.log('hello-3');
+				}, 2000);
+			}, 3000);
+		}, 1000);
+		
+		//목록 출력.
+		async function list() {
+		
+			let resolve = await fetch('../replyList.do?bno=' + 163 + '&page=' + 1);
+			let result = await resolve.json();
+			result.forEach((reply,idx,ary) => {
+				console.log(reply); // []
+				let li = document.createElement('li');
+				li.innerText = reply.replyer;
+				document.querySelector('#show').append(li);
+			});
+		}
+		
+		//fetch('../replyList.do?bno=' + 163 + '&page=' + 1) // promise객체.
+		//.then( resolve => resolve.json()) // 문자열 -> 객체.
+		//.then(function(resolve){
+		//	console.log(resolve);
+		//	return resolve.json(); // 문자열 -> 객체.
+		//})
+		
+		//.then(listFunc)
+		//.catch(function(err){
+		//	console.log('error==>', err);
+		//})
+		
+		//var listFunc = function(result){
+		function listFunc(result) {
+		//const listFunc = function(result){
+			result.forEach((reply,idx,ary) => {
+				console.log(reply); // []
+				let li = document.createElement('li');
+				li.innerText = reply.replyer;
+				document.querySelector('#show').append(li);
+			})
+		}
+
+		//등록.
+		asyncFunc()
+		async function asyncFunc(){
+			try{
+				let prom1 = await fetch('../addReply.do', {
+					method : 'post',
+					headers : {
+						'Content-Type': 'application/x-www-form-urlencoded'
+					},
+					body : 'bno=' + 163 + '&reply=' + '한글테스트...' + '&replyer=' + 'newbie'
+				});
+				let json1 = await prom1.json();
+				
+				if (json1.retCode == 'OK') {
+					alert('성공');
+					let prom2 = await fetch('../replyList.do?bno=' + 163 + '&page=' + 1);
+					let json2 = await prom2.json();
+					json2.forEach((reply,idx,ary) => {
+						console.log(reply); // []
+						let li = document.createElement('li');
+						li.innerText = reply.replyer;
+						document.querySelector('#show').append(li);
+					});
+				}else{
+					alert('실패');
+				}
+				
+			}catch(err){
+				 console.log(err);		
+			}
+		}
+		
+		//삭제.
+		//fetch('../removeReply.do', {
+		//	method : 'post',
+		//	headers : {
+		//		'Content-Type': 'application/x-www-form-urlencoded'
+		//	},
+		//	body : 'rno=' + 210
+		//})
+		//.then(resolve => resolve.json())
+		//.then(result => {
+		//	if(result.retCode == 'OK'){
+		//		alert('성공')
+		//	}else{
+		//		alert('실패')
+		//	}
+		//})
+		//.catch(err => console.log(err));
+		
+	</script>
+</body>
+</html>

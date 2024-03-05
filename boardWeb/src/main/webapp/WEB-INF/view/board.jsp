@@ -100,7 +100,7 @@ div.reply li {
 <div class="container reply" style="width: 80%;">
 	<div class="header">
 		<input class="col-sm-8" type="text" name="reply" id="reply">
-		<button class="col-sm-3 addReply">댓글등록</button>
+		<button class="col-sm-3 addReply ">댓글등록</button>
 	</div>
 	<div class="content">
 		<ul>

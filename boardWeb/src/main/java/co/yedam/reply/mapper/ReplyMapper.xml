@@ -11,7 +11,7 @@
        		   reply,
        		   replyer,
        		   reply_date
-        FROM   (SELECT /*+ INDEX_DESC(r reply_pk) */ ROWNUM rn, r.*
+        FROM   (SELECT /*+ INDEX(r reply_pk) */ ROWNUM rn, r.*
         		FROM tbl_reply r
         		WHERE board_no = #{bno}
         		<![CDATA[
