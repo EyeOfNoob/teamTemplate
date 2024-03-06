@@ -92,6 +92,15 @@ public class FrontController extends HttpServlet {
 		controls.put("/removeReply.do", new RemoveReplyControl());
 		controls.put("/addReply.do", new AddReplyControl());
 		controls.put("/getTotal.do", new ReplyTotalCount());
+		
+//		센터등록
+		controls.put("/registerCenter.do", new RegisterCenter());
+//		센터삭제
+//		controls.put("/ Center.do", new Center());
+		
+//		시도정보
+		controls.put("/getSidoInfo.do", new SidoInfoControl());
+		
 	}
 
 //	service - 서버 요청때마다 실행

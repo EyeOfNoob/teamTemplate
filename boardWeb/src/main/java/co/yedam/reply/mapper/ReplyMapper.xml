@@ -47,4 +47,48 @@
 		FROM   tbl_reply
 		WHERE board_no = #{bno}
 	</select>
+	
+	<!-- 반복문 포함 쿼리(json데이터 처리) -->
+	<insert id="insertCenter">
+		INSERT INTO tbl_center(id,
+		                       center_name,
+		                       sido,
+		                       phone_number,
+		                       address)
+	<!-- <foreach collection="타입" item="대상" open=" 반복시작시 입력될 값 "
+			separator=" 반복회차사이에 입력될 값 " close=" FROM " 반복종료시 입력될 값 ">-->
+		<foreach collection="array" item="center" open=" SELECT "
+			separator=" FROM dual UNION ALL SELECT " close=" FROM dual ">
+			#{center.id},
+			#{center.centerName},
+			#{center.sido},
+			#{center.phoneNumber},
+			#{center.address}
+		</foreach>
+	</insert>
+	
+	<delete id="deleteCenter">
+		DELETE FROM tbl_center
+		WHERE id IN
+		<foreach collection="array" item="center" open=" ( "
+			separator=" , " close=" ) ">
+			#{center.id}
+		</foreach>
+	</delete>
+	<!-- 
+	SELECT 1, 'cente1', 'seoul', '010-111', '서울시100' FROM dual
+	UNION ALL
+	SELECT 2, 'cente2', 'seoul', '010-111', '서울시100' FROM dual
+	UNION ALL
+	SELECT 3, 'cente3', 'seoul', '010-111', '서울시100' FROM dual;
+	 -->
+	
+	<select id="countPerSido" resultType="map">
+		SELECT sido "sido",
+			   COUNT(*) "cnt"
+		FROM   tbl_center
+		GROUP BY sido
+		ORDER BY 2 DESC
+	</select>
+	
 </mapper>

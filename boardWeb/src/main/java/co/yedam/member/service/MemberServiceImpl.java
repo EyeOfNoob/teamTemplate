@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
 
+import co.yedam.common.Center;
 import co.yedam.common.DataSource;
 import co.yedam.common.SearchVO;
 import co.yedam.member.Member;
