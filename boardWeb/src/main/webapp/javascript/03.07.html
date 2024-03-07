@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <style>
+    #show {
+      background: yellow;
+      width: 400px;
+      height: 205px;
+    }
+
+    #show span {
+      display: inline-block;
+      width: 90px;
+      border: 1px solid green;
+      background: pink;
+      margin: 1px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <select class="left" multiple style="height:150px; width:70px">
+    <option value="">hello1</option>
+    <option value="">hello2</option>
+    <option value="">hello3</option>
+    <option value="">hello4</option>
+    <option value="">hello5</option> let A = 오른쪽 책상의 필기구 1개. // A=볼펜
+  </select>
+
+  <button>+</button>
+  <button>-</button>
+  <button>+ & -</button>
+
+  <select class="right" multiple style="height:150px; width:70px">
+    <option value="">world1</option>
+    <option value="">world2</option>
+    <option value="">world3</option>
+    <option value="">world4</option>
+    <option value="">world5</option>
+  </select>
+
+	<script>
+		let p = 0;
+		
+		$('button').eq(p++).on('click', function(e) {
+//		$('button:nth-of-tyoe(2)').on('click', function(e) {
+			//let out = $('select.left option:selected').text();
+			//if(out != ''){
+			//	$('select.right').append('<option value="">'+out+'</option>');
+			//}
+			//$('select.left option:selected').remove();
+			
+			//let out = $('select.left option:selected');
+			$('select.right').append($('select.left option:selected').prop('selected', false));
+			//$('select.left option:selected').remove();
+			
+			//consol.log($('button').text());
+		})
+		
+		$('button').eq(p++).on('click', function(e) {
+			let out = $('select.right option:selected');
+			$('select.left').append(out.prop('selected', false));
+			//out.remove();
+		})
+		
+		$('button').eq(p++).on('click', function(e) {
+			let outL = $('select.left option:selected');
+			$('select.right').append(outL.prop('selected', false));
+			//$('select.left option:selected').remove();
+			
+			let outR = $('select.right option:selected');
+			$('select.left').append(outR.prop('selected', false));
+			//$('select.right option:selected').remove();
+		})
+		
+	</script>
+</body>
+
+</html>

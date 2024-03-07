@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    #show {
+      background: yellow;
+      width: 400px;
+      height: 205px;
+    }
+
+    #show span {
+      display: inline-block;
+      width: 90px;
+      border: 1px solid green;
+      background: pink;
+      margin: 1px;
+    }
+  </style>
+</head>
+
+<body>
+  <input type="text" id="keyword">
+  <button id="start">시작</button>
+  <br>
+  <div id="show">
+    <span>Lorem</span>
+    <span>ipsum</span>
+    <span>dolor</span>
+    <span>sit,</span>
+    <span>amet</span>
+    <span>consectetur</span>
+    <span>adipisicing</span>
+    <span>elit.</span>
+    <span>Maxime,</span>
+    <span>dicta</span>
+    <span>officia</span>
+    <span>similique</span>
+    <span>ratione</span>
+    <span>id</span>
+    <span>labore</span>
+    <span>tempora</span>
+    <span>iure</span>
+    <span>harum</span>
+    <span>provident,</span>
+    <span>deleniti</span>
+    <span>odio</span>
+    <span>esse</span>
+    <span>officiis</span>
+    <span>illo</span>
+    <span>eos</span>
+    <span>illum</span>
+    <span>quae</span>
+    <span>veritatis</span>
+    <span>vero</span>
+    <span>doloribus.</span>
+  </div>
+<br>
+<p id="timer"></p>
+<p id="check"></p>
+	<script>
+	let btn = document.querySelector('button#start');
+	btn.addEventListener('click', timerFnc);
+	let skey = document.querySelector('input#keyword');
+	skey.addEventListener('change', delFnc);
+	
+	let div = document.querySelector('div#show');
+	//let span = document.querySelector('div#show span');
+	let child = div.children;
+	//let child = div.childNodes; 
+	
+	//목표시간 내로 전체 단어를 다 삭제한 경우에는 "성공" or "실패"
+	function timerFnc() {
+	skey.value = '';
+	skey.focus();
+	let timing = 100;
+	
+		let timer = setInterval(function () {
+			let today = new Date();
+			console.log(today.format());
+			
+			//화면상의 span > 0개.
+			timing--;
+			let now = new Date();
+			document.querySelector('p#timer').innerText = now;
+			console.log(timing);
+					if(timing == 0 && child.length == 0){
+					document.querySelector('p#timer').innerText = "종료";
+					document.querySelector('p#check').innerText = "성공";
+					clearInterval(timer);
+				}else if(timing == 0 && child.length > 0){
+					document.querySelector('p#timer').innerText = "종료";
+					document.querySelector('p#check').innerText = "실패";
+					clearInterval(timer);
+				}else if(timing < 0){
+					document.querySelector('p#timer').innerText = "종료";
+					document.querySelector('p#check').innerText = "실패";
+					clearInterval(timer);
+				}
+		}, 1000);
+	} //end of timerFnc
+	
+	function delFnc() {
+	  //console.log(div);
+	  //console.log(span);
+	  //console.log(child);
+	  //console.log(child.length);
+	  //console.log(skey.value);
+	  
+	  for(let i =0; i<child.length; i++){
+		  if(child[i].innerText == skey.value){
+		  	  //console.log(child[i].innerText);
+			  //child[i].style.display="none";
+			  child[i].remove();
+		  }
+	  }
+	  skey.value = '';
+	  skey.focus();
+	  
+	} // end of delFnc
+	
+	const obj = {
+		name: "Hong",
+		age: 20,
+		showInfo: function() {
+			return `${this.name}, ${this.age}`;
+		},
+		showAge() {
+			return `${this.age}` ;
+		}
+	}
+	obj.bloodType = '0';
+	
+	// 객체의 메소드 추가
+	Number.prototype.format = function () {
+		
+	}
+	Date.prototype.format = function () {
+		
+		let yyyy = this.getFullYear();	//2024
+		let MM = this.getMonth() + 1;	//2+1
+		let dd = this.getDate();		//7
+		
+		let HH = this.getHours();		//7
+		let mm = this.getMinutes();		//13 5
+		let ss = this.getSeconds();		//23 8
+		
+		MM = ('0' + MM).slice(-2);		//01=>01, 010=>10
+		dd = ('0' + dd).slice(-2);
+		HH = ('0' + HH).slice(-2);
+		mm = ('0' + mm).slice(-2);
+		ss = ('0' + ss).slice(-2);
+		
+		return `${yyyy}/${MM}/${dd} ${HH}:${mm}:${ss}`;
+	}
+	</script>
+</body>
+
+</html>

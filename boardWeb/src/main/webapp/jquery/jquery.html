@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="jquery-3.7.1.min.js"></script>
+</head>
+<body>
+	<div id="show">
+		<!-- 
+		<ul>
+			<li>홍길동</li>
+			<li>김민석</li>
+		</ul>
+		 -->
+	</div>
+	
+	<script>
+	// $() <= jquery 객체. document.createElement('ul')
+	//				    선택자				
+		let ulTag = $('<ul />').append($('<li .>').text('홍길동'),$('<li .>').text('김민석'));
+		console.log(ulTag);
+	// document.querySelector('#show')
+		$('#show').append(ulTag);	
+	</script>
+</body>
+</html>

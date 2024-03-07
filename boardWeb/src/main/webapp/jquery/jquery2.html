@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+</head>
+<body>
+	Todo: <input id="userVal"><button id="addBtn">추가</button>
+	<br />
+	<ul id="list"></ul>
+	
+	<hr />
+	학번: <input id="sno">
+	이름: <input id="sname">
+	점수: <input id="score">
+	<button class="addBtn">등록</button>
+	<table border="1">
+		<thead>
+			<tr>
+				<th><input type="checkbox"></th>
+				<th>학번</th>
+				<th>이름</th>
+				<th>점수</th>
+			</tr>
+		</thead>
+		<tbody id="list">
+			<tr>
+				<td><input type="checkbox"></td>
+				<td>001</td>
+				<td>홍길동</td>
+				<td>62</td>
+			</tr>
+			<tr>
+				<td><input type="checkbox"></td>
+				<td>002</td>
+				<td>김철수</td>
+				<td>95</td>
+			</tr>
+			<tr>
+				<td><input type="checkbox"></td>
+				<td>003</td>
+				<td>고길동</td>
+				<td>23</td>
+			</tr>
+		</tbody>
+	</table>
+	
+	<script>
+		//체크박스 일괄체크
+		//			생략가능(중복있을경우 필요)
+		//					 │
+		$('thead input[type="checkbox"]').on('change', function(e) {
+			let tOrF = $(this).prop('checked');
+			$('tbody#list input').prop('checked', tOrF);
+			
+//			let all = document.querySelectorAll('tbody#list td');
+//			all.forEach(center =>{
+//				center.innerText = "0";
+//			})
+
+//			내가한거
+//			if($('thead input').is(':checked')){
+//				$('tbody#list input').prop('checked', true);
+//			}else{
+//				$('tbody#list input').prop('checked', false);
+//			}
+
+//			개별 체크박스 상태확인
+//			console.log($('tbody#list input').is(':checked'));//<= 조건에 해당하는 첫번째 요소만 가져오는듯?
+//			console.log($('tbody#list input').eq(0).prop('checked')); //<= 지정한 요소(eq(0)이므로 첫번째)를 가져옴
+//			console.log($('tbody#list input').eq(1).prop('checked'));
+//			console.log($('tbody#list input').eq(2).prop('checked'));
+		})
+		
+	//	li등록 버튼	
+	//				.addEventListener
+		$('#addBtn').on('click', function(e) {
+	//							   .value
+			let val = $('#userVal').val();
+			//let delBtn = $('<button />').text('삭제');
+			let delBtn = $('<button>삭제</button>');
+			delBtn.on('click', function(e) {
+				delBtn.parent().remove();
+			})
+			$('#list').append($('<li />').text(val + ' ').append(delBtn)); //<li>홍길동 <button>삭제</button></li>
+			$('#userVal').val('');
+		})
+		
+		//학생등록
+		$('.addBtn').on('click', function(e) {
+			let no = $('#sno').val();
+			let name = $('#sname').val();
+			let sco = $('#score').val();
+			
+//		  id가 list인 tbody선택.   거기에 tr생성 및 추가.
+			$('tbody#list') //
+				.append($('<tr />') //						setAttribute
+					.append($('<td />').append($('<input />').attr('type', 'checkbox')),
+							$('<td />').text(no), //학번을 담은 td 생성 및 추가
+							$('<td />').text(name), //이름을 담은 td 생성 및 추가
+							$('<td />').text(sco))); //점수을 담은 td 생성 및 추가
+			
+//			입력값 초기화			
+			$('#sno').val('');
+			$('#sname').val('');
+			$('#score').val('');
+		})
+		
+	</script>
+</body>
+</html>
