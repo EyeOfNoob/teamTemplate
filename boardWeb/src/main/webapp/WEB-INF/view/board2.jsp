@@ -2,11 +2,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<link href="//cdn.datatables.net/2.0.2/css/dataTables.dataTables.min.css" rel="stylesheet" />
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-<script src="//cdn.datatables.net/2.0.2/js/dataTables.min.js"></script>
-<style>
 
+<style>
 div.reply div {
 	margin: auto;
 }
@@ -121,26 +118,13 @@ div.reply li {
 		</ul>
 	</div>
 	<div class="footer">
-	<!-- dataTable start -->
-	<table id="example" class="display" style="width:100%">
-        <thead>
-            <tr>
-                <th>댓글번호</th>
-                <th>댓글내용</th>
-                <th>작성자</th>
-                <th>작성일시</th>
-            </tr>
-        </thead>
-        <tfoot>
-            <tr>
-                <th>댓글번호</th>
-                <th>댓글내용</th>
-                <th>작성자</th>
-                <th>작성일시</th>
-            </tr>
-        </tfoot>
-    </table>
-    <!-- dataTable end -->
+		<div class="center">
+			<div class="pagination">
+				<a href="">1</a> 
+				<a href="">2</a> 
+				<a href="" class="active">3</a>
+			</div>
+		</div>
 	</div>
 </div>
 <!-- div.container.reply -->
@@ -156,32 +140,10 @@ div.reply li {
 		form.submit();
 		form.action = 'updateForm.do';
 	}
-	
-	$('#example').DataTable({
-	    ajax: 'dataTable.do?bno='+bno,
-	    columns: [
-	        { data: 'replyNo' },
-	        { data: 'reply' },
-	        { data: 'replyer' },
-	        { data: 'replyDate' },
-	    ],
-	    lengthMenu: [
-	    	[5, 7, 10, 20, -1],
-	    	[5, 7, 10, 20, 'All']
-	    ]
-	});
-	
-	//ajax 호출후 화면에 추가하기
-	//		   수정해서
-	//			 │
-	//			 V
-	$('.addReply').on('click', function () {
-	var table = $('#example').DataTable();
-		table.row.add({'replyNo':'1',
-	        		    'reply':'reply',
-	        		    'replyer':'replyer',
-	       			    'replyDate':'replyData'})
-	       			    .draw(false);
-	});
-	//$('#dt-length-0').append($('<option values="5">5</option>'));
 </script>
+
+<!-- <script src="static/js/boardService.js"></script> -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<!-- <script src="static/js/boardAjax.js"></script> -->
+<script type="module" src="static/js/boardService3.js"></script>
+

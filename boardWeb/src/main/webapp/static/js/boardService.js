@@ -187,6 +187,7 @@ function pageList() {
 			console.log(err);
 		}); 
 		
+	//페이지목록 생성
 	function createPageElement(result) {
 		// 기존 페이지 삭제.
 		document.querySelector('div.pagination').innerHTML = '';
@@ -226,7 +227,7 @@ function pageList() {
 			aTag.href = '#';
 			document.querySelector('div.pagination').appendChild(aTag);
 		}
-		pagingFunc();
+		pagingFunc(); //새로 추가된 A에 추가
 	}
 }
 pageList();

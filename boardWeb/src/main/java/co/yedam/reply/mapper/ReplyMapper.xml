@@ -20,6 +20,12 @@
         WHERE  b.rn > (#{rpage} - 1) * 5
 	</select>
 	
+	<select id="selectList2" parameterType="int" resultType="reply">
+		SELECT /*+ INDEX(r reply_pk) */ r.*
+        FROM   tbl_reply r
+        WHERE  board_no = #{bno}
+	</select>
+	
 	<insert id="insertReply" parameterType="reply">
 		<selectKey resultType="int" keyProperty="replyNo" order="BEFORE">
 			SELECT reply_seq.nextval

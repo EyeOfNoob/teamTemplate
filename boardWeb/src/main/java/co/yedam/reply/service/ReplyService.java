@@ -9,6 +9,8 @@ import co.yedam.reply.Reply;
 
 public interface ReplyService {
 	List<Reply> replyList(SearchVO search);
+	List<Reply> replyList2(int bno);
+	
 	boolean addReply(Reply reply);
 	boolean removeReply(int rno);
 	
