@@ -28,6 +28,7 @@ import co.yedam.member.control.LoginForm;
 import co.yedam.member.control.LogoutControl;
 import co.yedam.member.control.MemberListControl;
 import co.yedam.reply.control.AddReplyControl;
+import co.yedam.reply.control.LastReplyControl;
 import co.yedam.reply.control.RemoveReplyControl;
 import co.yedam.reply.control.ReplyListControl;
 import co.yedam.reply.control.ReplyTotalCount;
@@ -92,6 +93,7 @@ public class FrontController extends HttpServlet {
 		controls.put("/removeReply.do", new RemoveReplyControl());
 		controls.put("/addReply.do", new AddReplyControl());
 		controls.put("/getTotal.do", new ReplyTotalCount());
+		controls.put("/lastReply.do", new LastReplyControl());
 		
 //		센터등록
 		controls.put("/registerCenter.do", new RegisterCenter());

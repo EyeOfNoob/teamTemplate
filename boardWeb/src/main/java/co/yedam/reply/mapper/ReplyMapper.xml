@@ -26,6 +26,25 @@
         WHERE  board_no = #{bno}
 	</select>
 	
+	<select id="lastReply" parameterType="int" resultType="reply">
+		SELECT reply_no,
+       		   board_no,
+       		   reply,
+       		   replyer,
+       		   reply_date
+		FROM (
+		     SELECT reply_no,
+		            board_no,
+       		        reply,
+       		        replyer,
+       		        reply_date
+		     FROM tbl_reply
+		     WHERE board_no = #{bno}
+		     ORDER BY reply_date DESC
+		)
+		WHERE ROWNUM = 1
+	</select>
+	
 	<insert id="insertReply" parameterType="reply">
 		<selectKey resultType="int" keyProperty="replyNo" order="BEFORE">
 			SELECT reply_seq.nextval

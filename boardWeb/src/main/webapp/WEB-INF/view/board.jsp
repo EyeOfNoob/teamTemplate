@@ -182,45 +182,89 @@ div.reply li {
 	//			 │
 	//			 V
 	var table = $('#example').DataTable();
-	function addReply(param = {}, successCall, errorCall){
-		$.ajax({
-			url: 'addReply.do',
-			method: 'post',
-			data: param,
-			dataType: 'json'
-		})
-		.done(successCall)
-		.fail(errorCall)
-	}
-	
 	$('.addReply').on('click', function () {
-		let reply = $('input[name="reply"]').val();
-		if (!replyer) { //비로그인 입력 처리
-			alert('댓글은 로그인한 사용자만 작성할수 있습니다.');
-			return;
-		}
-		if (!reply) { //댓글 공백처리
-			alert('댓글 입력하세요.');
-			return;
-		}
-		addReply({bno: bno, reply: reply, replyer: replyer}, // 인자값1
-			function(result) {
-				if (result.retCode == 'OK') {
-					alert('등록성공');
-					showList();
-					//	table.row.add({'replyNo':'313',
-					//				   'reply':reply,
-				    //    		   	   'replyer':replyer,
-				    //   			   	   'replyDate':'replyData'})
-				    //   			   	   .draw(false);
-				} else {
-					alert('등록실패');
-				}
-			},
-			err => console.log('error=> ' + err)
-		);
-		
+	    let reply = $('input[name="reply"]').val();
+	    if (!replyer) { //비로그인 입력 처리
+	        alert('댓글은 로그인한 사용자만 작성할수 있습니다.');
+	        return;
+	    } else if (!reply) { //댓글 공백처리
+	        alert('댓글 입력하세요.');
+	        return;
+	    } else {
+	        $.ajax({
+	            url: 'addReply.do',
+	            method: 'post',
+	            data: { bno: bno, reply: reply, replyer: replyer }, 
+	            dataType: 'json',
+	            success: function (result) { 
+	            	console.log(result);
+	                if (result.retCode == 'OK') {
+	                    alert('등록성공');
+	                    $.ajax({
+	        	            url: 'lastReply.do?bno=' + bno,
+	        	            method: 'get',
+	        	            dataType: 'json',
+	        	            success: function (result) { 
+			                    table.row.add({
+			                        'replyNo': result.currRepNo,
+			                        'reply': reply,
+			                        'replyer': replyer,
+			                        'replyDate': result.currRepDate
+			                    }).draw(false);
+	        	            },
+	        	            error: function (err) { 
+	        	                console.log('error=> ' + err);
+	        	            }
+	                    })
+	                } else {
+	                    alert('등록실패');
+	                }
+	            },
+	            error: function (err) { 
+	                console.log('error=> ' + err);
+	            }
+	        });
+	    }
 	});
+	//function addReply(param = {}, successCall, errorCall){
+	//	$.ajax({
+	//		url: 'addReply.do',
+	//		method: 'post',
+	//		data: param,
+	//		dataType: 'json'
+	//	})
+	//	.done(successCall)
+	//	.fail(errorCall)
+	//}
+	
+	//$('.addReply').on('click', function () {
+	//	let reply = $('input[name="reply"]').val();
+	//	if (!replyer) { //비로그인 입력 처리
+	//		alert('댓글은 로그인한 사용자만 작성할수 있습니다.');
+	//		return;
+	//	}
+	//	if (!reply) { //댓글 공백처리
+	//		alert('댓글 입력하세요.');
+	//		return;
+	//	}
+	//	addReply({bno: bno, reply: reply, replyer: replyer}, // 인자값1
+	//		function(result) {
+	//			if (result.retCode == 'OK') {
+	//				alert('등록성공');
+	//				showList();
+	//				//	table.row.add({'replyNo':'313',
+	//				//				   'reply':reply,
+	//			    //    		   	   'replyer':replyer,
+	//			    //   			   'replyDate':'replyData'})
+	//			    //   			   .draw(false);
+	//			} else {
+	//				alert('등록실패');
+	//			}
+	//		},
+	//		err => console.log('error=> ' + err)
+	//	);
+	//	
+	//});
 		
 	
 	//$('#dt-length-0').append($('<option values="5">5</option>'));

@@ -27,6 +27,11 @@ public class ReplyServiceImpl implements ReplyService{
 	}
 	
 	@Override
+	public Reply currReply(int bno) {
+		return mapper.lastReply(bno);
+	}
+
+	@Override
 	public boolean addReply(Reply reply) {
 		return mapper.insertReply(reply) == 1;
 	}
@@ -55,6 +60,7 @@ public class ReplyServiceImpl implements ReplyService{
 	public List<Map<String, Object>> getCntSido() {
 		return mapper.countPerSido();
 	}
+
 
 
 }

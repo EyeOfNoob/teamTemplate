@@ -14,6 +14,9 @@ public interface ReplyMapper {
 	
 	List<Reply> selectList2(int bno);
 	
+//	마지막에 등록된 댓글 확인
+	Reply lastReply(int bno);
+	
 	int insertReply(Reply reply);
 	int deleteReply(int rno);
 //	페이지 계산위한 전체건수.

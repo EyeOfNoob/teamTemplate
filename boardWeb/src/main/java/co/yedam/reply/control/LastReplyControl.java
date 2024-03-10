@@ -16,7 +16,7 @@ import co.yedam.reply.Reply;
 import co.yedam.reply.service.ReplyService;
 import co.yedam.reply.service.ReplyServiceImpl;
 
-public class AddReplyControl implements Control {
+public class LastReplyControl implements Control {
 
 	@Override
 	public void exec(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -24,24 +24,14 @@ public class AddReplyControl implements Control {
 		resp.setContentType("text/json;charset=utf-8");
 		
 		String bno = req.getParameter("bno");
-		String replyer = req.getParameter("replyer");
-		String reply = req.getParameter("reply");
-
-		Reply rep = new Reply();
-		rep.setBoardNo(Integer.parseInt(bno));
-		rep.setReply(reply);
-		rep.setReplyer(replyer);
 
 		ReplyService svc = new ReplyServiceImpl();
 		Map<String, Object> map = new HashMap<>();
 		
+		Reply currRep = svc.currReply(Integer.parseInt(bno));
 		
-		if (svc.addReply(rep)) {
-			map.put("retCode", "OK");
-			map.put("retVal", rep);
-		} else {
-			map.put("retCode", "NG");
-		}
+		map.put("currRepNo", currRep.getReplyNo());
+		map.put("currRepDate", currRep.getReplyDate());
 		
 		Gson gson = new GsonBuilder().create();
 		resp.getWriter().print(gson.toJson(map));
