@@ -146,6 +146,7 @@ div.reply li {
 <!-- div.container.reply -->
 
 <script>
+	//import service from './boardAjax.js';
 	const bno = "${board.boardNo }";
 	const replyer = "${logid}";
 	console.log(bno);
@@ -157,31 +158,70 @@ div.reply li {
 		form.action = 'updateForm.do';
 	}
 	
-	$('#example').DataTable({
-	    ajax: 'dataTable.do?bno='+bno,
-	    columns: [
-	        { data: 'replyNo' },
-	        { data: 'reply' },
-	        { data: 'replyer' },
-	        { data: 'replyDate' },
-	    ],
-	    lengthMenu: [
-	    	[5, 7, 10, 20, -1],
-	    	[5, 7, 10, 20, 'All']
-	    ]
-	});
+	
+	function showList() {
+		$('#example').DataTable({
+			destroy: true,
+		    ajax: 'dataTable.do?bno='+bno,
+		    columns: [
+		        { data: 'replyNo' },
+		        { data: 'reply' },
+		        { data: 'replyer' },
+		        { data: 'replyDate' },
+		    ],
+		    lengthMenu: [
+		    	[5, 7, 10, 20, -1],
+		    	[5, 7, 10, 20, 'All']
+		    ]
+		});
+	}
+	showList();
 	
 	//ajax 호출후 화면에 추가하기
 	//		   수정해서
 	//			 │
 	//			 V
-	$('.addReply').on('click', function () {
 	var table = $('#example').DataTable();
-		table.row.add({'replyNo':'1',
-	        		    'reply':'reply',
-	        		    'replyer':'replyer',
-	       			    'replyDate':'replyData'})
-	       			    .draw(false);
+	function addReply(param = {}, successCall, errorCall){
+		$.ajax({
+			url: 'addReply.do',
+			method: 'post',
+			data: param,
+			dataType: 'json'
+		})
+		.done(successCall)
+		.fail(errorCall)
+	}
+	
+	$('.addReply').on('click', function () {
+		let reply = $('input[name="reply"]').val();
+		if (!replyer) { //비로그인 입력 처리
+			alert('댓글은 로그인한 사용자만 작성할수 있습니다.');
+			return;
+		}
+		if (!reply) { //댓글 공백처리
+			alert('댓글 입력하세요.');
+			return;
+		}
+		addReply({bno: bno, reply: reply, replyer: replyer}, // 인자값1
+			function(result) {
+				if (result.retCode == 'OK') {
+					alert('등록성공');
+					showList();
+					//	table.row.add({'replyNo':'313',
+					//				   'reply':reply,
+				    //    		   	   'replyer':replyer,
+				    //   			   	   'replyDate':'replyData'})
+				    //   			   	   .draw(false);
+				} else {
+					alert('등록실패');
+				}
+			},
+			err => console.log('error=> ' + err)
+		);
+		
 	});
+		
+	
 	//$('#dt-length-0').append($('<option values="5">5</option>'));
 </script>
