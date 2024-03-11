@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<!-- XMLHttpRequest, fetch, async/await -->
+	<script>
+		fetch('url') //promise
+		.then(function (result) {
+			return result.json(); // json => object.
+		})
+		.then(function (result) {
+			//화면상의 요소 생성.
+		})
+		.then(function (result) {
+			
+		})
+		.catch(function (err) {
+			
+		})
+		
+		//Promise 객체.
+		const p1 = new Promise(function (resolve, reject) {
+			setTimeout(function () {
+				resolve('OK');
+				//reject('NG');
+			}, 1000); //1000ms(1초) 지연후 내부함수 작동.
+		});
+		
+		const p2 = p1.then(function (result) {
+			console.log('then: '+ result);
+			return 'hello'; // Promise 객체로 변환
+			//consoles.log('hello'); 오류발생 => catch 작동
+		});
+		/* .catch(function (err) {
+			console.log('catch: '+ err);
+		}) */
+		
+		const p3 = p2.then(function (result) {
+			console.log('then2: '+ result);
+			//return 'world';
+			return new Promise(function (resolve, reject) {
+				let message = "message";
+				resolve(message);
+				//reject(message);
+				
+				//resolve('world');
+				//reject('error world');
+			});
+		});
+		/* .catch(function (err) {
+			console.log('catch2: '+ err);
+		}) */
+		
+		p3.then(function (result) {
+			console.log('then3: '+ result);
+		})
+		.catch(function (err) {
+			console.log('catch3: '+ err);
+		})
+		
+	</script>
+</body>
+</html>

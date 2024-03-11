@@ -93,6 +93,8 @@ public class FrontController extends HttpServlet {
 		controls.put("/removeReply.do", new RemoveReplyControl());
 		controls.put("/addReply.do", new AddReplyControl());
 		controls.put("/getTotal.do", new ReplyTotalCount());
+		
+//		받아올 필요 없었음.
 		controls.put("/lastReply.do", new LastReplyControl());
 		
 //		센터등록

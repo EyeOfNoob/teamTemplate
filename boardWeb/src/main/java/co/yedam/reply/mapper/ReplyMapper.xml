@@ -59,7 +59,7 @@
 				#{boardNo},
 				#{reply},
 				#{replyer},
-				sysdate)
+				#{replyDate})
 	</insert>
 	
 	<delete id="deleteReply" parameterType="int">

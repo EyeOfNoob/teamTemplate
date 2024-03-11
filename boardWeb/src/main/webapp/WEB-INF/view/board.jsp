@@ -172,7 +172,8 @@ div.reply li {
 		    lengthMenu: [
 		    	[5, 7, 10, 20, -1],
 		    	[5, 7, 10, 20, 'All']
-		    ]
+		    ],
+		    order : [[ 0, "desc" ]]
 		});
 	}
 	showList();
