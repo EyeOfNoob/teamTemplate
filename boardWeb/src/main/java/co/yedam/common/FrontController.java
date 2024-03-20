@@ -100,7 +100,7 @@ public class FrontController extends HttpServlet {
 //		센터등록
 		controls.put("/registerCenter.do", new RegisterCenter());
 //		센터삭제
-//		controls.put("/ Center.do", new Center());
+//		controls.put("/Center.do", new Center());
 		
 //		시도정보
 		controls.put("/getSidoInfo.do", new SidoInfoControl());
