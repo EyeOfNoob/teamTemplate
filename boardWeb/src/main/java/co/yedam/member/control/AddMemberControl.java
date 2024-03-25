@@ -21,7 +21,7 @@ public class AddMemberControl implements Control {
 		// TODO Auto-generated method stub
 		
 //		1)요청정보 2)저장경로 3)최대크기 4)인코딩방식 5)리네임정책 
-		String savePath = req.getServletContext().getRealPath("images");
+		String savePath = req.getServletContext().getRealPath("static/img");
 //					  바이트	메가바이트 5mb
 		int maxSize = 1024 * 1024 * 5;
 		String enc = "utf-8";
